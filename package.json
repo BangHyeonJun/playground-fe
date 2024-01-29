@@ -6,9 +6,13 @@
 	"scripts": {
 		"build": "turbo run build",
 		"dev": "turbo run dev",
+    "lint": "turbo run lint",
 		"clean": "turbo run clean && rm -rm node_modules"
 	},
 	"devDependencies": {
+		"@repo/eslint-config": "workspace:*",
+		"@repo/typescript-config": "workspace:*",
+		"prettier": "^3.2.4",
 		"turbo": "^1.11.3"
 	},
 	"packageManager": "pnpm@8.15.0",
