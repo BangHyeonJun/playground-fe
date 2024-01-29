@@ -1,5 +1,19 @@
 {
+	"private": true,
+	"version": "1.0.0",
+	"author": "",
+	"license": "ISC",
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"clean": "turbo run clean && rm -rm node_modules"
+	},
 	"devDependencies": {
 		"turbo": "^1.11.3"
+	},
+	"packageManager": "pnpm@8.15.0",
+	"engines": {
+		"node": ">=20",
+		"pnpm": ">=8.15.0"
 	}
 }
