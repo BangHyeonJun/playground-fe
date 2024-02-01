@@ -21,7 +21,7 @@ jobs:
       - uses: pnpm/action-setup@v2
         name: pnpm 설치
         with:
-          version: 10
+          version: 8
           run_install: false
 
       - name: pnpm 저장 디렉토리 가져오기
