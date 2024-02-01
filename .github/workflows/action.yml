@@ -8,20 +8,25 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+        pnpm-version: [8]
 
     steps:
       - name: 소스코드 체크아웃 # Repo checkout
         uses: actions/checkout@v4
 
-      - name: Node.js 설치
+      - name: Node.js ${{ matrix.node-version }} 설치
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
 
       - uses: pnpm/action-setup@v2
-        name: pnpm 설치
+        name: pnpm ${{ matrix.pnpm-version }} 설치
         with:
-          version: 8
+          version: ${{ matrix.pnpm-version }}
           run_install: false
 
       - name: pnpm 저장 디렉토리 가져오기
