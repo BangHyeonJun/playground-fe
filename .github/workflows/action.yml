@@ -39,3 +39,6 @@ jobs:
 
       - name: 의존성 설치
         run: pnpm install
+
+      - name: 프로젝트 빌드 테스트
+        run: pnpm build
