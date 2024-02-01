@@ -1,9 +1,10 @@
 name: 프론트엔드 놀이터
 
 on:
-  - push
-  - pull_request
-
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 # Job 설정
 jobs:
   build:
