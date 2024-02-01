@@ -1,7 +1,41 @@
-name: Our First Workflow
-on: push
+name: 프론트엔드 놀이터
+
+on:
+  - push
+  - pull_request
+
+# Job 설정
 jobs:
-  echo:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo 'Hello, GitHub Actions!'
+      - name: 소스코드 체크아웃 # Repo checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v2
+        name: pnpm 설치
+        with:
+          version: 10
+          run_install: false
+
+      - name: pnpm 저장 디렉토리 가져오기
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: pnpm 캐시 설정
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: 의존성 설치
+        run: pnpm install
