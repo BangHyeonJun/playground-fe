@@ -1,0 +1,8 @@
+# 도커 이미지에 들어가지 말아야 할 파일들을 지정하는 파일
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+.git
