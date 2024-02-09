@@ -1,7 +1,6 @@
 FROM node:20-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-ENV PORT=3001
 RUN corepack enable
 
 # This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
