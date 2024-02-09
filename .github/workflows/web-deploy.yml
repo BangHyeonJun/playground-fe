@@ -46,7 +46,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Vercel CLI 설치
-        run: pnpm add vercel@latest
+        run: pnpm add -g -w vercel@latest
 
       - name: Vercel 원격 환경에서 환경 변수 및 프로젝트 설정을 가져오기
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
