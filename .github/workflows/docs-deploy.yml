@@ -30,33 +30,33 @@ jobs:
             packages:
               - 'packages/**'
 
-      - name: pnpm ${{ matrix.pnpm-version }} 설치
-        uses: pnpm/action-setup@v2
-        with:
-          version: ${{ matrix.pnpm-version }}
-          run_install: false
+      # - name: pnpm ${{ matrix.pnpm-version }} 설치
+      #   uses: pnpm/action-setup@v2
+      #   with:
+      #     version: ${{ matrix.pnpm-version }}
+      #     run_install: false
 
-      - name: Node.js ${{ matrix.node-version }} 설치
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
+      # - name: Node.js ${{ matrix.node-version }} 설치
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+      #     cache: "pnpm"
 
-      - name: pnpm 저장 디렉토리 가져오기
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      # - name: pnpm 저장 디렉토리 가져오기
+      #   shell: bash
+      #   run: |
+      #     echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
-        name: pnpm 캐시 설정
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+      # - uses: actions/cache@v3
+      #   name: pnpm 캐시 설정
+      #   with:
+      #     path: ${{ env.STORE_PATH }}
+      #     key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pnpm-store-
 
       - name: Vercel CLI 설치
-        run: pnpm add -w vercel@latest
+        run: yarn add -w vercel@latest
 
       - name: Vercel 원격 환경에서 환경 변수 및 프로젝트 설정을 가져오기
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
