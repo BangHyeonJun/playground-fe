@@ -9,51 +9,30 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_DOCS_PROJECT_ID }}
 
 jobs:
-  deploy:
+  changes:
+    name: 변경된 파일 확인
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20]
-        pnpm-version: [8]
+    permissions:
+      pull-requests: read
+    outputs:
+      docs: ${{ steps.filter.outputs.docs }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            docs:
+              - 'apps/docs/**'
 
+  deploy:
+    name: 프로젝트 배포 스텝
+    needs: changes
+    if: ${{ needs.changes.outputs.docs == 'true' }}
+    runs-on: ubuntu-latest
     steps:
       - name: 현재 커밋 체크아웃 (${{ github.sha }})
         uses: actions/checkout@v4
-
-      - name: 변경 점 확인
-        uses: dorny/paths-filter@v3
-        id: docs
-        with:
-          filters: |
-            apps:
-              - 'apps/docs/**'
-            packages:
-              - 'packages/**'
-
-      # - name: pnpm ${{ matrix.pnpm-version }} 설치
-      #   uses: pnpm/action-setup@v2
-      #   with:
-      #     version: ${{ matrix.pnpm-version }}
-      #     run_install: false
-
-      # - name: Node.js ${{ matrix.node-version }} 설치
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: ${{ matrix.node-version }}
-      #     cache: "pnpm"
-
-      # - name: pnpm 저장 디렉토리 가져오기
-      #   shell: bash
-      #   run: |
-      #     echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      # - uses: actions/cache@v3
-      #   name: pnpm 캐시 설정
-      #   with:
-      #     path: ${{ env.STORE_PATH }}
-      #     key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-pnpm-store-
 
       - name: Vercel CLI 설치
         run: yarn add -w vercel@latest
