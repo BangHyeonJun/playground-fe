@@ -28,12 +28,27 @@ jobs:
   deploy:
     name: 프로젝트 배포 스텝
     needs: changes
+    strategy:
+      matrix:
+        node-version: [20]
+        pnpm-version: [8]
     if: ${{ needs.changes.outputs.web == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: 현재 커밋 체크아웃 (${{ github.sha }})
         uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v2
+        name: pnpm ${{ matrix.pnpm-version }} 설치
+        with:
+          version: ${{ matrix.pnpm-version }}
+          run_install: false
+
+      - name: Node.js ${{ matrix.node-version }} 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
       - name: Vercel CLI 설치
         run: yarn add -w vercel@latest
 
