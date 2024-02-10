@@ -15,7 +15,7 @@ jobs:
         pnpm-version: [8]
 
     steps:
-      - name: 소스코드 체크아웃 # Repo checkout
+      - name: 현재 커밋 체크아웃 (${{ github.sha }})
         uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v2
